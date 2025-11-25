@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stellar Stories - Quiz</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: radial-gradient(circle at 20% 20%, #181d46, #040510 80%);
+        color: #e6e9ff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+      }
+
+      /* Stars */
+      .stars {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -1;
+      }
+      .stars::before,
+      .stars::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            2px 2px at 20% 40%,
+            rgba(255, 255, 255, 0.9),
+            transparent
+          ),
+          radial-gradient(
+            1.5px 1.5px at 70% 80%,
+            rgba(255, 255, 255, 0.7),
+            transparent
+          ),
+          radial-gradient(
+            1px 1px at 40% 60%,
+            rgba(255, 255, 255, 0.5),
+            transparent
+          ),
+          radial-gradient(
+            2px 2px at 85% 25%,
+            rgba(255, 255, 255, 0.8),
+            transparent
+          ),
+          radial-gradient(
+            1.6px 1.6px at 10% 75%,
+            rgba(255, 255, 255, 0.6),
+            transparent
+          );
+        animation: twinkle 6s infinite ease-in-out;
+      }
+      .stars::after {
+        animation-delay: 3s;
+        opacity: 0.7;
+      }
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Navbar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        background: rgba(10, 12, 30, 0.8);
+        backdrop-filter: blur(8px);
+        padding: 14px 0;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+        z-index: 1000;
+      }
+      .navbar a {
+        text-decoration: none;
+        color: #ffe27f;
+        font-weight: 600;
+        font-size: 1.05rem;
+        padding: 10px 20px;
+        border-radius: 30px;
+        transition: 0.25s ease;
+      }
+      .navbar a:hover,
+      .navbar a.active {
+        background: #ffe27f;
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 0 12px rgba(255, 213, 80, 0.7);
+      }
+
+      h1 {
+        margin-top: 30px;
+        color: #ffe27f;
+        text-shadow: 0 0 12px rgba(255, 210, 90, 0.5);
+      }
+
+      /* Quiz Card */
+      .card {
+        background: rgba(25, 30, 70, 0.85);
+        width: 90%;
+        max-width: 650px;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 16px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(6px);
+        animation: fadeUp 0.6s ease;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question {
+        font-size: 1.15rem;
+        margin-bottom: 15px;
+        color: #ffe27f;
+      }
+
+      .options button {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.25s ease;
+        background: #ffe27f;
+        color: #000;
+        box-shadow: 0 0 10px rgba(255, 210, 90, 0.4);
+      }
+      .options button:hover {
+        background: #ffd45b;
+        box-shadow: 0 0 15px rgba(255, 213, 90, 0.7);
+      }
+
+      .feedback {
+        margin-top: 8px;
+        font-weight: bold;
+        color: #c7d3ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars"></div>
+
+    <div class="navbar">
+      <a href="index.html">Home</a>
+      <a href="story.html">Story</a>
+      <a href="characters.html">Characters</a>
+      <a href="quiz.html" class="active">Quiz</a>
+    </div>
+
+    <h1>🪐 Space Weather Quiz</h1>
+
+    <!-- Template for quiz cards  -->
+    <div class="card">
+      <div class="question">1. What causes space weather?</div>
+      <div class="options">
+        <button onclick="checkAnswer(this,'wrong')">
+          Earth’s atmosphere changing temperature
+        </button>
+        <button onclick="checkAnswer(this,'right')">
+          Activity from the Sun such as flares and CMEs
+        </button>
+        <button onclick="checkAnswer(this,'wrong')">
+          The Moon’s gravitational pull
+        </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="card">
+      <div class="question">
+        2. Which solar event can release huge clouds of plasma?
+      </div>
+      <div class="options">
+        <button onclick="checkAnswer(this,'wrong')">Sunspots cooling</button>
+        <button onclick="checkAnswer(this,'right')">
+          Coronal Mass Ejection (CME)
+        </button>
+        <button onclick="checkAnswer(this,'wrong')">Auroras on Earth</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="card">
+      <div class="question">
+        3. What can strong solar storms disrupt on Earth?
+      </div>
+      <div class="options">
+        <button onclick="checkAnswer(this,'right')">
+          Satellites, GPS, power grids, and radio signals
+        </button>
+        <button onclick="checkAnswer(this,'wrong')">Only rainfall</button>
+        <button onclick="checkAnswer(this,'wrong')">Only ocean tides</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="card">
+      <div class="question">4. Why do auroras appear near the poles?</div>
+      <div class="options">
+        <button onclick="checkAnswer(this,'right')">
+          Charged solar particles interact with Earth’s magnetic field
+        </button>
+        <button onclick="checkAnswer(this,'wrong')">
+          Because the poles are colder
+        </button>
+        <button onclick="checkAnswer(this,'wrong')">
+          Due to moonlight reflections
+        </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="card">
+      <div class="question">
+        5. What layer of Earth’s atmosphere affects GPS accuracy during storms?
+      </div>
+      <div class="options">
+        <button onclick="checkAnswer(this,'right')">The ionosphere</button>
+        <button onclick="checkAnswer(this,'wrong')">The ozone layer</button>
+        <button onclick="checkAnswer(this,'wrong')">The troposphere</button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="card">
+      <div class="question">6. Who can be affected by space weather?</div>
+      <div class="options">
+        <button onclick="checkAnswer(this,'wrong')">Only astronauts</button>
+        <button onclick="checkAnswer(this,'wrong')">Only scientists</button>
+        <button onclick="checkAnswer(this,'right')">
+          Everyone using technology, from taxi drivers to pilots
+        </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="card">
+      <div class="question">7. What is a solar flare?</div>
+      <div class="options">
+        <button onclick="checkAnswer(this,'right')">
+          A sudden burst of radiation from the Sun
+        </button>
+        <button onclick="checkAnswer(this,'wrong')">A falling star</button>
+        <button onclick="checkAnswer(this,'wrong')">
+          A planet reflecting sunlight
+        </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <script>
+      function checkAnswer(btn, type) {
+        const fb = btn.parentElement.nextElementSibling; //The next HTML element where feedback will be written.
+
+        if (type === "right") {
+          fb.textContent = "✅ Correct!";
+          fb.style.color = "#8aff8a";
+        } else {
+          fb.textContent = "❌ Try again!";
+          fb.style.color = "#ff7b7b";
+        }
+      }
+    </script>
+  </body>
+</html>
